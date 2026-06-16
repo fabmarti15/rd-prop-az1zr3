@@ -11,6 +11,9 @@
   body{min-height:100vh;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:8vh 6vw;gap:2.5rem}
   .eyebrow{text-transform:uppercase;letter-spacing:.22em;font-size:.78rem;color:var(--accent);font-weight:700}
   h1{font-size:clamp(2rem,5vw,3.4rem);font-weight:800;letter-spacing:-.02em;text-align:center;line-height:1.1}
+  .head{display:flex;flex-direction:column;align-items:center;gap:.9rem;text-align:center}
+  .sub{color:var(--muted);font-size:clamp(1.05rem,1.9vw,1.4rem);font-weight:500}
+  .sub b{color:var(--accent);font-weight:700}
   .cards{display:flex;gap:1.6rem;flex-wrap:wrap;justify-content:center;width:100%;max-width:60rem}
   a.card{flex:1;min-width:16rem;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:2rem 2.1rem;transition:border-color .2s,transform .2s}
   a.card:hover{border-color:var(--accent);transform:translateY(-3px)}
@@ -24,19 +27,20 @@
 </style>
 </head>
 <body>
-  <div class="eyebrow">Confidencial</div>
-  <h1>Propuesta intra-empresa<br>RedArbor</h1>
+  <div class="head">
+    <div class="eyebrow">Confidencial</div>
+    <h1>Emprender desde RedArbor</h1>
+    <p class="sub">Con la mira en un <b>exit billion</b>.</p>
+  </div>
   <div class="cards">
     <a class="card" href="estructura.html">
-      <div class="n">01 · El acuerdo</div>
-      <div class="t">Estructura</div>
-      <div class="d">Cómo participamos: 50%, valorización, vesting.</div>
+      <div class="n">01</div>
+      <div class="t">Propuesta de estructura</div>
       <div class="go">Abrir →</div>
     </a>
     <a class="card b2b" href="negocio.html">
-      <div class="n">02 · El qué</div>
-      <div class="t">Negocio</div>
-      <div class="d">Las dos propuestas: B2C certificaciones y B2B SaaS.</div>
+      <div class="n">02</div>
+      <div class="t">El Negocio</div>
       <div class="go">Abrir →</div>
     </a>
   </div>
