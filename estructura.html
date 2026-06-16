@@ -68,6 +68,8 @@
   .nav button:hover{border-color:var(--accent)}
   .tag{align-self:flex-start;background:rgba(79,209,197,.12);color:var(--accent);border:1px solid rgba(79,209,197,.3);padding:.4rem 1rem;border-radius:999px;font-size:.9rem;font-weight:600;margin-top:1.4rem}
   .muted-note{color:var(--muted);font-size:.95rem;margin-top:1.4rem;font-style:italic}
+  .home{align-self:flex-start;margin-top:2rem;color:var(--accent);text-decoration:none;font-weight:700;font-size:1rem;border:1px solid var(--line);padding:.6rem 1.2rem;border-radius:999px;transition:border-color .2s}
+  .home:hover{border-color:var(--accent)}
   .specs{display:grid;grid-template-columns:1fr 1fr;gap:1.3rem;margin-top:.4rem;max-width:64rem}
   .spec{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.5rem 1.7rem}
   .spec .sn{font-size:clamp(1.5rem,2.9vw,2.3rem);font-weight:800;letter-spacing:-.02em;margin-bottom:.5rem}
@@ -148,7 +150,7 @@
       <div class="card"><div class="k">Nosotros vendemos</div><div class="v">Septiembre <b>2029</b> o en el exit del grupo, lo que ocurra primero — a <b>3× ventas</b>.</div></div>
       <div class="card"><div class="k">RedArbor compra antes</div><div class="v">Puede ejercer la compra anticipada, pero a <b>5× ventas</b>.</div></div>
     </div>
-    <p class="lead">El múltiplo más alto en la compra anticipada te protege a ti: evita tener que comprar barato algo que está creciendo rápido. Es una cláusula <span class="accent">a tu favor</span>.</p>
+    <p class="lead">El múltiplo más alto en la compra anticipada existe para <span class="accent">no incentivar</span> que el grupo compre la línea antes de tiempo si está creciendo rápido.</p>
   </section>
 
   <!-- 8 por qué 50% -->
@@ -174,7 +176,8 @@
   <section class="slide">
     <div class="eyebrow">El cierre</div>
     <h2>Esta es la lógica.<br>Queremos <span class="accent">co-diseñarla</span> contigo.</h2>
-    <p class="lead">No traemos un contrato cerrado. Traemos una forma de seguir creando juntos. Y soñar en un nuevo exit.<span class="accent2"></span> </p>
+    <p class="lead">No traemos un contrato cerrado. Traemos una forma de seguir creando juntos. Y soñar en un <span class="accent2">nuevo exit</span>.</p>
+    <a class="home" href="index.html">↩ Volver al inicio</a>
   </section>
 
   <div class="footer">
@@ -206,7 +209,7 @@
     if(e.key==='ArrowLeft')go(i-1);
   });
   document.getElementById('deck').addEventListener('click',e=>{
-    if(e.target.closest('.nav'))return;
+    if(e.target.closest('.nav')||e.target.closest('a'))return;
     if(e.clientX > window.innerWidth*0.5)go(i+1);else go(i-1);
   });
 </script>
