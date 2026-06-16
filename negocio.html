@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>Propuesta — Negocio · RedArbor</title>
+<style>
+  :root{
+    --bg:#f6f7f9; --bg2:#eef1f4; --ink:#0e1620; --muted:#5b6776;
+    --line:#e1e6ec; --accent:#0d9488; --accent2:#b7791f; --danger:#d64550;
+    --card:#ffffff; --b2c:#0d9488; --b2b:#b7791f;
+    --shadow:0 1px 3px rgba(16,24,40,.06), 0 8px 24px rgba(16,24,40,.05);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased; overflow:hidden;
+  }
+  .deck{height:100vh;width:100vw;position:relative}
+  .slide{
+    position:absolute;inset:0;display:none;flex-direction:column;
+    justify-content:center;padding:7vh 9vw;opacity:0;transition:opacity .35s ease;
+  }
+  .slide.active{display:flex;opacity:1}
+  .eyebrow{text-transform:uppercase;letter-spacing:.22em;font-size:.78rem;color:var(--accent);font-weight:700;margin-bottom:1.4rem}
+  .eyebrow.b2c{color:var(--b2c)} .eyebrow.b2b{color:var(--b2b)}
+  h1{font-size:clamp(2.2rem,5.2vw,4.4rem);line-height:1.05;font-weight:800;letter-spacing:-.02em}
+  h2{font-size:clamp(1.8rem,4vw,3rem);line-height:1.1;font-weight:800;letter-spacing:-.02em;margin-bottom:1.8rem}
+  .lead{font-size:clamp(1.1rem,2vw,1.6rem);color:var(--muted);line-height:1.5;max-width:62ch;margin-top:1.4rem}
+  .big{font-size:clamp(1.4rem,2.6vw,2.2rem);line-height:1.35;font-weight:600;max-width:28ch}
+  .accent{color:var(--accent)} .c-b2c{color:var(--b2c)} .c-b2b{color:var(--b2b)}
+  .sub{color:var(--muted)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-top:1rem}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.6rem 1.7rem;box-shadow:var(--shadow)}
+  .card.b2c{border-top:3px solid var(--b2c)} .card.b2b{border-top:3px solid var(--b2b)}
+  .card .k{font-size:.8rem;text-transform:uppercase;letter-spacing:.14em;font-weight:700;margin-bottom:.7rem;color:var(--muted)}
+  .card .h{font-size:clamp(1.3rem,2.2vw,1.8rem);font-weight:800;margin-bottom:.5rem;letter-spacing:-.01em}
+  .card .v{font-size:clamp(1rem,1.6vw,1.25rem);line-height:1.4;color:var(--muted)}
+  .specs{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:.4rem;max-width:66rem}
+  .spec{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.6rem;box-shadow:var(--shadow)}
+  .spec .sn{font-size:clamp(1.3rem,2.4vw,1.9rem);font-weight:800;letter-spacing:-.02em;margin-bottom:.4rem}
+  .spec .sd{color:var(--muted);font-size:clamp(.98rem,1.45vw,1.15rem);line-height:1.4}
+  .flow{display:flex;align-items:stretch;gap:1rem;margin-top:1.6rem;flex-wrap:wrap}
+  .layer{flex:1;min-width:14rem;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.5rem 1.6rem;box-shadow:var(--shadow)}
+  .layer .lvl{font-size:.78rem;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:.6rem}
+  .layer .lt{font-size:clamp(1.15rem,1.9vw,1.5rem);font-weight:800;margin-bottom:.45rem}
+  .layer .ld{color:var(--muted);font-size:clamp(.95rem,1.4vw,1.12rem);line-height:1.38}
+  .layer.pay{border-left:3px solid var(--b2c)}
+  .stat{display:flex;gap:3.5rem;margin-top:2rem;flex-wrap:wrap}
+  .stat .s .n{font-size:clamp(2.2rem,5vw,3.6rem);font-weight:800;letter-spacing:-.02em}
+  .stat .s .l{color:var(--muted);font-size:1rem;margin-top:.3rem;max-width:18ch}
+  .duo{display:flex;align-items:center;gap:2.6rem;margin-top:1.4rem;flex-wrap:wrap}
+  .duo-item{display:flex;flex-direction:column;gap:.5rem}
+  .duo-item .dl{font-size:clamp(2.4rem,5.4vw,4.2rem);font-weight:800;letter-spacing:-.02em;line-height:1}
+  .duo-item .ds{color:var(--muted);font-size:clamp(1rem,1.7vw,1.35rem);font-weight:600}
+  .duo-sep{font-size:clamp(2.2rem,4.5vw,3.4rem);color:var(--line);font-weight:300}
+  .valflow{display:flex;align-items:center;gap:1.4rem;margin-top:1.8rem;flex-wrap:wrap}
+  .node{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.7rem;text-align:center;min-width:9.5rem;box-shadow:var(--shadow)}
+  .node .n{font-size:clamp(1.6rem,3vw,2.5rem);font-weight:800;letter-spacing:-.02em}
+  .node .l{color:var(--muted);font-size:.9rem;margin-top:.3rem}
+  .arrow{color:var(--accent);font-size:2rem;font-weight:300}
+  table{border-collapse:collapse;margin-top:1.4rem;width:100%;max-width:64rem}
+  td,th{text-align:left;padding:.85rem 1rem;border-bottom:1px solid var(--line);font-size:clamp(.95rem,1.5vw,1.18rem)}
+  th{color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:.74rem}
+  td:first-child{font-weight:700}
+  .pill{display:inline-block;padding:.2rem .7rem;border-radius:999px;font-size:.8rem;font-weight:700}
+  .pill.hi{background:rgba(240,180,41,.14);color:var(--b2b);border:1px solid rgba(240,180,41,.3)}
+  .pill.mid{background:rgba(154,166,181,.12);color:var(--muted);border:1px solid var(--line)}
+  .quote{font-size:clamp(1.3rem,2.6vw,2.1rem);line-height:1.4;font-weight:600;max-width:32ch;border-left:3px solid var(--accent);padding-left:1.6rem}
+  .muted-note{color:var(--muted);font-size:.95rem;margin-top:1.4rem;font-style:italic}
+  .footer{position:absolute;bottom:3vh;left:9vw;right:9vw;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:.8rem}
+  .dots{display:flex;gap:.4rem}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--line);transition:background .2s}
+  .dot.on{background:var(--accent)}
+  .nav{position:fixed;bottom:3vh;right:9vw;display:flex;gap:.5rem;z-index:10}
+  .nav button{background:var(--card);border:1px solid var(--line);color:var(--ink);width:38px;height:38px;border-radius:9px;font-size:1.1rem;cursor:pointer}
+  .nav button:hover{border-color:var(--accent)}
+  .tag{align-self:flex-start;padding:.4rem 1rem;border-radius:999px;font-size:.9rem;font-weight:600;margin-top:1.4rem;border:1px solid var(--line);color:var(--muted)}
+  @media print{
+    body{overflow:visible;background:#fff;color:#000}
+    .slide{display:flex!important;opacity:1!important;position:relative;height:100vh;page-break-after:always;inset:auto}
+    .nav{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <!-- 1 portada -->
+  <section class="slide active">
+    <div class="eyebrow">Propuesta de negocio</div>
+    <h1>Dos apuestas sobre lo que<br>RedArbor ya tiene y <span class="accent">no explota</span>.</h1>
+    <p class="lead">Una idea B2B y una idea B2C. Las dos montadas sobre la mayor ventaja del grupo: su distribución.</p>
+    <div class="tag">B2B · B2C</div>
+  </section>
+
+  <!-- 2 la ventaja -->
+  <section class="slide">
+    <div class="eyebrow">La ventaja</div>
+    <h2>Nadie en la región distribuye<br>como RedArbor.</h2>
+    <div class="stat">
+      <div class="s"><div class="n c-b2b">400</div><div class="l">vendedores en LatAm → la puerta al B2B</div></div>
+      <div class="s"><div class="n c-b2c">180M</div><div class="l">candidatos en los portales → la masa del B2C</div></div>
+      <div class="s"><div class="n accent">~$0</div><div class="l">costo de adquisición: el canal ya es nuestro</div></div>
+    </div>
+    <p class="lead">El producto se puede copiar. Esta distribución, no.</p>
+  </section>
+
+  <!-- 3 las dos propuestas -->
+  <section class="slide">
+    <div class="eyebrow">El mapa</div>
+    <h2>Dos propuestas.</h2>
+    <div class="duo">
+      <div class="duo-item"><span class="dl c-b2c">B2C</span><span class="ds">180M candidatos</span></div>
+      <div class="duo-sep">/</div>
+      <div class="duo-item"><span class="dl c-b2b">B2B</span><span class="ds">12.000 empresas</span></div>
+    </div>
+    <p class="muted-note">Independientes entre sí. Cada una es una línea de ingreso por derecho propio.</p>
+  </section>
+
+  <!-- 4 B2C intro -->
+  <section class="slide">
+    <div class="eyebrow b2c">Propuesta B2C · Negocio EdTech</div>
+    <h2>Certificaciones para los<br><span class="c-b2c">180 millones</span> de candidatos.</h2>
+    <p class="big sub">Cursos que de verdad acerquen al candidato a conseguir trabajo — o a emprender.</p>
+  </section>
+
+  <!-- 5 B2C tesis -->
+  <section class="slide">
+    <div class="eyebrow b2c">La tesis B2C</div>
+    <h2>Vendemos la señal, no el curso.</h2>
+    <p class="quote">El contenido ya es gratis. Lo que nadie puede copiar es <span class="c-b2c">dónde vive la certificación</span>: dentro del portal donde se contrata.</p>
+    <p class="lead">Capacítate (Slim), Microsoft, Google: todos regalan el contenido. El reclutador no busca cursos — busca filtrar candidatos. Esa ventaja es de <span class="c-b2c">RedArbor</span>.</p>
+  </section>
+
+  <!-- 6 B2C las 3 capas -->
+  <section class="slide">
+    <div class="eyebrow b2c">El portafolio B2C</div>
+    <h2>Tres capas, un mismo motor de contenido con IA.</h2>
+    <div class="flow">
+      <div class="layer"><div class="lvl">Capa 1 · Gancho</div><div class="lt">Empleabilidad gratis</div><div class="ld">CV, entrevistas, marca personal. Cero costo. Trae al candidato y alimenta el resto.</div></div>
+      <div class="layer pay"><div class="lvl">Capa 2 · El candidato paga</div><div class="lt">Inglés con IA</div><div class="ld"><b>USD 5–8/mes</b> vs los 39/mes de Open English. Único producto que el candidato paga de su bolsillo.</div></div>
+      <div class="layer"><div class="lvl">Capa 3 · La empresa paga</div><div class="lt">B2B2C</div><div class="ld">La empresa paga por capacitar/certificar a sus postulantes. Ticket alto, vía los 400 vendedores.</div></div>
+    </div>
+  </section>
+
+  <!-- 7 B2C integración + camino -->
+  <section class="slide">
+    <div class="eyebrow b2c">Por qué gana dentro del portal</div>
+    <h2>La certificación trabaja sola.</h2>
+    <div class="specs">
+      <div class="spec"><div class="sn c-b2c">Badge filtrable</div><div class="sd">Aparece en el CV; el reclutador filtra por él.</div></div>
+      <div class="spec"><div class="sn c-b2c">Mejor matching</div><div class="sd">Certificarse sube al candidato en los resultados.</div></div>
+      <div class="spec"><div class="sn c-b2c">Gap analysis</div><div class="sd">"Te rechazaron 5 veces por falta de X → certifícate en X."</div></div>
+      <div class="spec"><div class="sn c-b2c">Push masivo</div><div class="sd">Millones de candidatos, alcance directo, CAC ~cero.</div></div>
+    </div>
+  </section>
+
+  <!-- 8 B2B intro -->
+  <section class="slide">
+    <div class="eyebrow b2b">Propuesta B2B</div>
+    <h2>Un nuevo SaaS B2B.</h2>
+    <div class="stat">
+      <div class="s"><div class="n c-b2b">12.000</div><div class="l">empresas ya usando el ATS</div></div>
+      <div class="s"><div class="n c-b2b">550.000</div><div class="l">empresas pagando job posting</div></div>
+    </div>
+    <p class="lead">Un nuevo SaaS — por ejemplo, pago de nómina. Que <span class="c-b2b">no compita</span> con el HCM freemium que el grupo va a lanzar, sino que lo complemente.</p>
+  </section>
+
+  <!-- 9 B2B menú -->
+  <section class="slide">
+    <div class="eyebrow b2b">Las opciones B2B</div>
+    <h2>Cuatro candidatos a explorar</h2>
+    <table>
+      <tr><th>Módulo</th><th>Por qué</th><th>Potencial</th></tr>
+      <tr><td>Nómina multi-país</td><td>Monetiza el HCM freemium. El modelo BUK, con 18 países de distribución.</td><td><span class="pill hi">El premio grande</span></td></tr>
+      <tr><td>Beneficios financieros</td><td>Adelanto de sueldo y seguros vía partners. Rápido de lanzar.</td><td><span class="pill mid">Rápido</span></td></tr>
+      <tr><td>Background checks</td><td>Verificación integrada al flujo de contratación, cobro por transacción.</td><td><span class="pill mid">Rápido</span></td></tr>
+      <tr><td>LMS corporativo</td><td>Capacitar empleados con el mismo motor de contenido IA del B2C.</td><td><span class="pill hi">Sinergia</span></td></tr>
+    </table>
+    <p class="muted-note">Elegimos el primero en la fase de validación, con datos de la base instalada.</p>
+  </section>
+
+  <!-- 10 B2B matemática -->
+  <section class="slide">
+    <div class="eyebrow b2b">El tamaño del premio</div>
+    <h2>Camino a <span class="c-b2b">$10M</span> de ARR.</h2>
+    <div class="grid2">
+      <div class="card b2b"><div class="k">Escenario A</div><div class="h">~2.400 empresas</div><div class="v"><b>0,4%</b> de las 550.000 × ~$350/mes.</div></div>
+      <div class="card b2b"><div class="k">Escenario B</div><div class="h">~4.800 empresas</div><div class="v"><b>0,9%</b> de las 550.000 × ~$175/mes.</div></div>
+    </div>
+    <p class="lead">No hace falta convencer a toda la base. Con <span class="c-b2b">menos del 1%</span> del universo que ya le compra job posting al grupo, llegamos a $10M.</p>
+  </section>
+
+  <!-- 11 cierre valorización -->
+  <section class="slide">
+    <div class="eyebrow">Y esto, ¿cuánto vale?</div>
+    <h2>La línea vale <span class="accent">3× sus ventas</span>.</h2>
+    <div class="valflow">
+      <div class="node"><div class="n">$10M</div><div class="l">ventas 2029</div></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="n">$30M</div><div class="l">valor línea (3×)</div></div>
+      <div class="arrow">→</div>
+      <div class="node" style="border-color:var(--accent)"><div class="n accent">$15M</div><div class="l">nuestro 50%</div></div>
+    </div>
+    <p class="muted-note">La misma valorización del acuerdo. El negocio es lo que la llena.</p>
+  </section>
+
+  <div class="footer">
+    <span>Propuesta de negocio · RedArbor</span>
+    <div class="dots" id="dots"></div>
+  </div>
+</div>
+
+<div class="nav">
+  <button id="prev">‹</button>
+  <button id="next">›</button>
+</div>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];
+  const dotsWrap=document.getElementById('dots');
+  let i=0;
+  slides.forEach((_,k)=>{const d=document.createElement('div');d.className='dot'+(k===0?' on':'');dotsWrap.appendChild(d)});
+  const dots=[...document.querySelectorAll('.dot')];
+  function go(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+    dots.forEach((d,k)=>d.classList.toggle('on',k===i));
+  }
+  document.getElementById('next').onclick=()=>go(i+1);
+  document.getElementById('prev').onclick=()=>go(i-1);
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key===' ')go(i+1);
+    if(e.key==='ArrowLeft')go(i-1);
+  });
+  document.getElementById('deck').addEventListener('click',e=>{
+    if(e.target.closest('.nav'))return;
+    if(e.clientX > window.innerWidth*0.5)go(i+1);else go(i-1);
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>Propuesta — Estructura · RedArbor</title>
+<style>
+  :root{
+    --bg:#0c0f14; --bg2:#11151c; --ink:#eef2f7; --muted:#9aa6b5;
+    --line:#1f2733; --accent:#4fd1c5; --accent2:#f0b429; --danger:#ef6b73;
+    --card:#141a23;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased; overflow:hidden;
+  }
+  .deck{height:100vh;width:100vw;position:relative}
+  .slide{
+    position:absolute;inset:0;display:none;flex-direction:column;
+    justify-content:center;padding:7vh 9vw;opacity:0;
+    transition:opacity .35s ease;
+  }
+  .slide.active{display:flex;opacity:1}
+  .eyebrow{
+    text-transform:uppercase;letter-spacing:.22em;font-size:.78rem;
+    color:var(--accent);font-weight:700;margin-bottom:1.4rem;
+  }
+  h1{font-size:clamp(2.2rem,5.2vw,4.4rem);line-height:1.05;font-weight:800;letter-spacing:-.02em}
+  h2{font-size:clamp(1.8rem,4vw,3rem);line-height:1.1;font-weight:800;letter-spacing:-.02em;margin-bottom:2rem}
+  .lead{font-size:clamp(1.1rem,2vw,1.6rem);color:var(--muted);line-height:1.5;max-width:60ch;margin-top:1.6rem}
+  .big{font-size:clamp(1.4rem,2.6vw,2.2rem);line-height:1.35;font-weight:600;max-width:24ch}
+  .accent{color:var(--accent)}
+  .accent2{color:var(--accent2)}
+  .sub{color:var(--muted)}
+  ul{list-style:none;margin-top:1.6rem;display:flex;flex-direction:column;gap:1.1rem;max-width:62ch}
+  li{font-size:clamp(1.05rem,1.9vw,1.5rem);line-height:1.4;padding-left:1.8rem;position:relative}
+  li::before{content:"";position:absolute;left:0;top:.62em;width:.55rem;height:.55rem;border-radius:2px;background:var(--accent)}
+  li b{font-weight:700}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-top:1.4rem}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.6rem 1.7rem}
+  .card .k{color:var(--accent);font-size:.8rem;text-transform:uppercase;letter-spacing:.14em;font-weight:700;margin-bottom:.6rem}
+  .card .v{font-size:clamp(1.05rem,1.7vw,1.35rem);line-height:1.35}
+  table{border-collapse:collapse;margin-top:1.6rem;width:100%;max-width:60rem}
+  td,th{text-align:left;padding:.95rem 1.1rem;border-bottom:1px solid var(--line);font-size:clamp(.95rem,1.6vw,1.25rem)}
+  th{color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:.78rem}
+  td:first-child{color:var(--muted);width:38%}
+  td b{color:var(--ink)}
+  .flow{display:flex;align-items:center;gap:1.2rem;margin-top:2.4rem;flex-wrap:wrap}
+  .node{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.3rem 1.6rem;text-align:center;min-width:9rem}
+  .node .n{font-size:clamp(1.5rem,3vw,2.4rem);font-weight:800}
+  .node .l{color:var(--muted);font-size:.9rem;margin-top:.3rem}
+  .arrow{color:var(--accent);font-size:2rem;font-weight:300}
+  .pillars{display:grid;grid-template-columns:repeat(2,1fr);gap:1.3rem;margin-top:1.8rem}
+  .pillar{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;padding:1.3rem 1.5rem}
+  .pillar .t{font-weight:700;font-size:1.15rem;margin-bottom:.4rem}
+  .pillar .d{color:var(--muted);font-size:1rem;line-height:1.4}
+  .quote{font-size:clamp(1.3rem,2.6vw,2.1rem);line-height:1.4;font-weight:600;max-width:30ch;border-left:3px solid var(--accent);padding-left:1.6rem}
+  .footer{position:absolute;bottom:3vh;left:9vw;right:9vw;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:.8rem}
+  .dots{display:flex;gap:.4rem}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--line);transition:background .2s}
+  .dot.on{background:var(--accent)}
+  .nav{position:fixed;bottom:3vh;right:9vw;display:flex;gap:.5rem;z-index:10}
+  .nav button{background:var(--card);border:1px solid var(--line);color:var(--ink);width:38px;height:38px;border-radius:9px;font-size:1.1rem;cursor:pointer}
+  .nav button:hover{border-color:var(--accent)}
+  .tag{align-self:flex-start;background:rgba(79,209,197,.12);color:var(--accent);border:1px solid rgba(79,209,197,.3);padding:.4rem 1rem;border-radius:999px;font-size:.9rem;font-weight:600;margin-top:1.4rem}
+  .muted-note{color:var(--muted);font-size:.95rem;margin-top:1.4rem;font-style:italic}
+  .specs{display:grid;grid-template-columns:1fr 1fr;gap:1.3rem;margin-top:.4rem;max-width:64rem}
+  .spec{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.5rem 1.7rem}
+  .spec .sn{font-size:clamp(1.5rem,2.9vw,2.3rem);font-weight:800;letter-spacing:-.02em;margin-bottom:.5rem}
+  .spec .sd{color:var(--muted);font-size:clamp(1rem,1.5vw,1.2rem);line-height:1.4}
+  @media print{
+    body{overflow:visible;background:#fff;color:#000}
+    .slide{display:flex!important;opacity:1!important;position:relative;height:100vh;page-break-after:always;inset:auto}
+    .nav{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <!-- 1 portada -->
+  <section class="slide active">
+    <div class="eyebrow"></div>
+    <h1>De ejecutivos<br>a <span class="accent">socios</span>.</h1>
+    <p class="lead">Una nueva línea de ingreso dentro de RedArbor, creada por los tres fundadores de Genoma.</p>
+    <div class="tag">Fabián · Daniel · Diego</div>
+  </section>
+
+  <!-- 2 el porqué -->
+  <section class="slide">
+    <div class="eyebrow">El porqué</div>
+    <h2>Siempre supimos que íbamos<br>a reemprender.</h2>
+    <p class="big"><span class="accent">Pero…</span></p>
+    <p class="lead">Trabajar juntos en esta etapa ha sido muy interesante, y vemos mucho espacio donde crear valor.</p>
+    <p class="lead" style="margin-top:.7rem">Por eso inventamos un camino para quedarnos — y crear ese valor dentro del grupo.</p>
+  </section>
+
+  <!-- 3 la tesis -->
+  <section class="slide">
+    <div class="eyebrow">La tesis</div>
+    <h2>Hay valor que el grupo no está capturando.</h2>
+    <p class="quote">Creemos que se esta dejando dinero sobre la mesa para el <span class="accent">exit 2030</span>.</p>
+    <p class="lead">RedArbor tiene una distribución que casi nadie tiene en Latam. Esa ventaja hoy está subutilizada. Nosotros queremos convertirla en nuevas líneas de ingreso — y dejar el grupo mejor parado para su salida.</p>
+  </section>
+
+  <!-- 4 el concepto -->
+  <section class="slide">
+    <div class="eyebrow">El concepto, en una frase</div>
+    <h2>Creamos una nueva línea de ingreso.<br>Participamos del <span class="accent">50%</span> de su valor.</h2>
+    <p class="big sub"> La construimos y la lideramos. Como socios, no como empleados.</p>
+  </section>
+
+  <!-- 5 el esquema -->
+  <section class="slide">
+    <div class="eyebrow">El esquema</div>
+    <h2>Cuatro reglas, claras desde<br>el primer día.</h2>
+    <div class="specs">
+      <div class="spec"><div class="sn accent">50%</div><div class="sd">Participamos del valor de la nueva línea, vía sociedades.</div></div>
+      <div class="spec"><div class="sn accent">3 años</div><div class="sd">Vesting, atado al exit del grupo.</div></div>
+      <div class="spec"><div class="sn">Costos primero</div><div class="sd">La inversión se recupera antes de repartir un peso.</div></div>
+      <div class="spec"><div class="sn">Roles dobles</div><div class="sd">Lideramos la línea full-time y dirigimos en el grupo.</div></div>
+    </div>
+  </section>
+
+  <!-- 6 valorización -->
+  <section class="slide">
+    <div class="eyebrow">Valorización</div>
+    <h2>La línea vale <span class="accent">3× sus ventas</span>.</h2>
+    <div class="flow">
+      <div class="node"><div class="n">$10M</div><div class="l">ventas 2029</div></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="n">$30M</div><div class="l">valor línea (3×)</div></div>
+      <div class="arrow">→</div>
+      <div class="node" style="border-color:var(--accent)"><div class="n accent">$15M</div><div class="l">nuestro 50%</div></div>
+    </div>
+    <p class="muted-note">Cifra de ejemplo para fijar la lógica, no un compromiso de meta.</p>
+  </section>
+
+  <!-- 7 gatillo -->
+  <section class="slide">
+    <div class="eyebrow">Cuándo y cómo se paga</div>
+    <h2>Dos gatillos</h2>
+    <div class="grid2">
+      <div class="card"><div class="k">Nosotros vendemos</div><div class="v">Septiembre <b>2029</b> o en el exit del grupo, lo que ocurra primero — a <b>3× ventas</b>.</div></div>
+      <div class="card"><div class="k">RedArbor compra antes</div><div class="v">Puede ejercer la compra anticipada, pero a <b>5× ventas</b>.</div></div>
+    </div>
+    <p class="lead">El múltiplo más alto en la compra anticipada te protege a ti: evita tener que comprar barato algo que está creciendo rápido. Es una cláusula <span class="accent">a tu favor</span>.</p>
+  </section>
+
+  <!-- 8 por qué 50% -->
+  <section class="slide">
+    <div class="eyebrow">Por qué el 50% es justo</div>
+    <h2></h2>
+    <div class="pillars">
+      <div class="pillar"><div class="t">Track record</div><div class="d">Vendimos Genoma al grupo. Hemos fundado y escalado en edtech y HR-tech.</div></div>
+      <div class="pillar"><div class="t">Sube el múltiplo de TODO</div><div class="d">Nuevas lineas de ingreso al grupo. Para el exit 2030.</div></div>
+      <div class="pillar"><div class="t">Tu riesgo está cubierto</div><div class="d">Costos primero. Recuperas tu inversión antes de que repartamos un peso.</div></div>
+      <div class="pillar"><div class="t">Alineación total</div><div class="d">Vesting 3 años + pago atado al exit. Remamos para el mismo lado que tú.</div></div>
+    </div>
+  </section>
+
+  <!-- 9 qué gana David -->
+  <section class="slide">
+    <div class="eyebrow">Qué ganas tú</div>
+    <h2>Cedes el 50% de una línea nueva.<br>Ganas múltiplo en <span class="accent">todo el grupo</span>.</h2>
+    <p class="big sub">Mayor valor para el exit. Con una nueva línea que hoy no existe.</p>
+  </section>
+
+  <!-- 10 cierre -->
+  <section class="slide">
+    <div class="eyebrow">El cierre</div>
+    <h2>Esta es la lógica.<br>Queremos <span class="accent">co-diseñarla</span> contigo.</h2>
+    <p class="lead">No traemos un contrato cerrado. Traemos una forma de seguir creando juntos. Y soñar en un nuevo exit.<span class="accent2"></span> </p>
+  </section>
+
+  <div class="footer">
+    <span></span>
+    <div class="dots" id="dots"></div>
+  </div>
+</div>
+
+<div class="nav">
+  <button id="prev">‹</button>
+  <button id="next">›</button>
+</div>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];
+  const dotsWrap=document.getElementById('dots');
+  let i=0;
+  slides.forEach((_,k)=>{const d=document.createElement('div');d.className='dot'+(k===0?' on':'');dotsWrap.appendChild(d)});
+  const dots=[...document.querySelectorAll('.dot')];
+  function go(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+    dots.forEach((d,k)=>d.classList.toggle('on',k===i));
+  }
+  document.getElementById('next').onclick=()=>go(i+1);
+  document.getElementById('prev').onclick=()=>go(i-1);
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key===' ')go(i+1);
+    if(e.key==='ArrowLeft')go(i-1);
+  });
+  document.getElementById('deck').addEventListener('click',e=>{
+    if(e.target.closest('.nav'))return;
+    if(e.clientX > window.innerWidth*0.5)go(i+1);else go(i-1);
+  });
+</script>
+</body>
+</html>
