@@ -65,6 +65,11 @@
   .node .n{font-size:clamp(1.6rem,3vw,2.5rem);font-weight:800;letter-spacing:-.02em}
   .node .l{color:var(--muted);font-size:.9rem;margin-top:.3rem}
   .arrow{color:var(--accent);font-size:2rem;font-weight:300}
+  .prize{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--b2b);border-radius:14px;padding:1.1rem 1.5rem;margin-top:.4rem;box-shadow:var(--shadow)}
+  .prize .pz-t{font-size:clamp(1.15rem,1.9vw,1.5rem);font-weight:800;letter-spacing:-.01em;display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}
+  .prize .pz-d{color:var(--muted);font-size:clamp(.95rem,1.4vw,1.12rem);line-height:1.35;margin-top:.3rem}
+  .home{align-self:flex-start;margin-top:1.8rem;background:none;color:var(--accent);cursor:pointer;text-decoration:none;font-weight:700;font-size:1rem;border:1px solid var(--line);padding:.6rem 1.2rem;border-radius:999px;transition:border-color .2s}
+  .home:hover{border-color:var(--accent)}
   table{border-collapse:collapse;margin-top:1.4rem;width:100%;max-width:64rem}
   td,th{text-align:left;padding:.85rem 1rem;border-bottom:1px solid var(--line);font-size:clamp(.95rem,1.5vw,1.18rem)}
   th{color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:.74rem}
@@ -163,7 +168,7 @@
   <!-- 7 B2C integración + camino -->
   <section class="slide">
     <div class="eyebrow b2c">Por qué gana dentro del portal</div>
-    <h2>La certificación trabaja sola.</h2>
+    <h2>La certificación es <span class="c-b2c">oro</span> dentro de nuestros portales.</h2>
     <div class="specs">
       <div class="spec"><div class="sn c-b2c">Badge filtrable</div><div class="sd">Aparece en el CV; el reclutador filtra por él.</div></div>
       <div class="spec"><div class="sn c-b2c">Mejor matching</div><div class="sd">Certificarse sube al candidato en los resultados.</div></div>
@@ -186,15 +191,15 @@
   <!-- 9 B2B menú -->
   <section class="slide">
     <div class="eyebrow b2b">Las opciones B2B</div>
-    <h2>Cuatro candidatos a explorar</h2>
+    <h2>Ideas a explorar</h2>
+    <div class="prize"><div class="pz-t">Nómina multi-país <span class="pill hi">El premio grande</span></div><div class="pz-d">Monetiza el HCM freemium. El modelo BUK, con 18 países de distribución.</div></div>
     <table>
-      <tr><th>Módulo</th><th>Por qué</th><th>Potencial</th></tr>
-      <tr><td>Nómina multi-país</td><td>Monetiza el HCM freemium. El modelo BUK, con 18 países de distribución.</td><td><span class="pill hi">El premio grande</span></td></tr>
-      <tr><td>Beneficios financieros</td><td>Adelanto de sueldo y seguros vía partners. Rápido de lanzar.</td><td><span class="pill mid">Rápido</span></td></tr>
-      <tr><td>Background checks</td><td>Verificación integrada al flujo de contratación, cobro por transacción.</td><td><span class="pill mid">Rápido</span></td></tr>
-      <tr><td>LMS corporativo</td><td>Capacitar empleados con el mismo motor de contenido IA del B2C.</td><td><span class="pill hi">Sinergia</span></td></tr>
+      <tr><th>Producto</th><th>Qué hace</th><th>Cobro</th></tr>
+      <tr><td>Contrata y Firma</td><td>Contrato + firma electrónica + papeles, todo digital al cerrar la contratación.</td><td>Por transacción</td></tr>
+      <tr><td>Coach de Retención 🤖</td><td>Bot de WhatsApp que escribe al nuevo a los 14 y 30 días, detecta señales de fuga y alerta a RRHH. Sube retención en la etapa más crítica.</td><td>Suscripción x empleado/mes</td></tr>
+      <tr><td>Identidad Verificada (KYC)</td><td>Valida identidad de clientes, proveedores o candidatos. Gemelo del background check.</td><td>Por verificación</td></tr>
     </table>
-    <p class="muted-note">Elegimos el primero en la fase de validación, con datos de la base instalada.</p>
+    <p class="muted-note">Todos transaccionales o recurrentes, y lejos del core. Elegimos el primero en la fase de validación.</p>
   </section>
 
   <!-- 10 B2B matemática -->
@@ -202,24 +207,11 @@
     <div class="eyebrow b2b">El tamaño del premio</div>
     <h2>Camino a <span class="c-b2b">$10M</span> de ARR.</h2>
     <div class="grid2">
-      <div class="card b2b"><div class="k">Escenario A</div><div class="h">~2.400 empresas</div><div class="v"><b>0,4%</b> de las 550.000 × ~$350/mes.</div></div>
-      <div class="card b2b"><div class="k">Escenario B</div><div class="h">~4.800 empresas</div><div class="v"><b>0,9%</b> de las 550.000 × ~$175/mes.</div></div>
+      <div class="card b2b"><div class="k">Escenario A</div><div class="h c-b2b">Solo 0,4%</div><div class="v">de las 550.000 × ~$350/mes → <b>~2.400 empresas</b>.</div></div>
+      <div class="card b2b"><div class="k">Escenario B</div><div class="h c-b2b">Solo 0,9%</div><div class="v">de las 550.000 × ~$175/mes → <b>~4.800 empresas</b>.</div></div>
     </div>
     <p class="lead">No hace falta convencer a toda la base. Con <span class="c-b2b">menos del 1%</span> del universo que ya le compra job posting al grupo, llegamos a $10M.</p>
-  </section>
-
-  <!-- 11 cierre valorización -->
-  <section class="slide">
-    <div class="eyebrow">Y esto, ¿cuánto vale?</div>
-    <h2>La línea vale <span class="accent">3× sus ventas</span>.</h2>
-    <div class="valflow">
-      <div class="node"><div class="n">$10M</div><div class="l">ventas 2029</div></div>
-      <div class="arrow">→</div>
-      <div class="node"><div class="n">$30M</div><div class="l">valor línea (3×)</div></div>
-      <div class="arrow">→</div>
-      <div class="node" style="border-color:var(--accent)"><div class="n accent">$15M</div><div class="l">nuestro 50%</div></div>
-    </div>
-    <p class="muted-note">La misma valorización del acuerdo. El negocio es lo que la llena.</p>
+    <button class="home" onclick="go(2)">↩ Volver a las propuestas</button>
   </section>
 
   <div class="footer">
@@ -251,7 +243,7 @@
     if(e.key==='ArrowLeft')go(i-1);
   });
   document.getElementById('deck').addEventListener('click',e=>{
-    if(e.target.closest('.nav'))return;
+    if(e.target.closest('.nav')||e.target.closest('.home'))return;
     if(e.clientX > window.innerWidth*0.5)go(i+1);else go(i-1);
   });
 </script>
