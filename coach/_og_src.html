@@ -1,0 +1,63 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8">
+<style>
+  :root{--wa:#e7ddd3;--sb:#00704A;--ink:#0e1b26;--muted:#64757c;--line:#e3edeb;--teal2:#14b8a6;--teal:#0d9488;}
+  *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;}
+  html,body{width:1200px;height:630px;overflow:hidden;}
+  body{position:relative;background:radial-gradient(120% 120% at 16% 0%,#13414e 0%,#0a2630 48%,#06141a 100%);color:#eaf5f3;display:flex;align-items:center;}
+  .glow{position:absolute;border-radius:50%;filter:blur(70px);}
+  .g1{width:420px;height:420px;background:#14b8a6;left:-120px;top:-150px;opacity:.30;}
+  .g2{width:360px;height:360px;background:#1aa06d;right:90px;bottom:-170px;opacity:.20;}
+  .left{flex:1;padding:60px 0 60px 78px;position:relative;z-index:2;}
+  .brand{display:flex;align-items:center;gap:13px;margin-bottom:26px;}
+  .brand .mk{width:50px;height:50px;border-radius:14px;background:linear-gradient(160deg,#2bb3a3,#0d9488);display:flex;align-items:center;justify-content:center;font-size:26px;}
+  .brand b{font-size:25px;font-weight:800;letter-spacing:-.5px;color:#fff;}
+  .brand .tg{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#06141a;background:linear-gradient(160deg,var(--teal2),var(--teal));padding:5px 11px;border-radius:8px;}
+  h1{font-size:72px;line-height:.95;font-weight:900;letter-spacing:-2px;color:#fff;margin-bottom:18px;}
+  h1 .ac{color:var(--teal2);}
+  .sub{font-size:23px;font-weight:600;color:#a7c6c2;letter-spacing:-.2px;margin-bottom:30px;max-width:540px;line-height:1.34;}
+  .sub b{color:#eaf5f3;font-weight:800;}
+  .chips{display:flex;gap:11px;flex-wrap:wrap;margin-bottom:38px;}
+  .chip{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:700;color:#cfe7e3;background:rgba(20,184,166,.12);border:1.5px solid #1d4a44;padding:9px 15px;border-radius:999px;}
+  .lockline{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:800;color:#7fb8af;letter-spacing:.4px;text-transform:uppercase;}
+  .lockline .pad{font-size:20px;}
+  /* phone */
+  .right{width:430px;display:flex;align-items:center;justify-content:center;position:relative;z-index:2;}
+  .phone{width:298px;height:548px;border-radius:42px;background:#06141a;padding:11px;box-shadow:0 40px 90px rgba(0,0,0,.55),0 0 0 2px #1b3942 inset;transform:rotate(6deg);}
+  .screen{width:100%;height:100%;border-radius:32px;overflow:hidden;background:var(--wa);display:flex;flex-direction:column;}
+  .wahead{background:linear-gradient(180deg,#00704A,#005138);color:#fff;display:flex;align-items:center;gap:9px;padding:18px 14px 12px;}
+  .wahead .av{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-size:17px;}
+  .wahead .t{font-size:14px;font-weight:800;}
+  .wahead .s{font-size:10px;opacity:.9;display:flex;align-items:center;gap:5px;margin-top:2px;}
+  .wahead .s .vd{width:6px;height:6px;border-radius:50%;background:#7CFC9B;}
+  .wabody{flex:1;padding:14px 12px;display:flex;flex-direction:column;gap:9px;
+    background:linear-gradient(rgba(231,221,211,.55),rgba(231,221,211,.55)),repeating-linear-gradient(45deg,#efe9e1 0 14px,#ece5dc 14px 28px);}
+  .msg{max-width:84%;padding:9px 11px;border-radius:12px;font-size:13.5px;line-height:1.4;font-weight:500;color:#1c2b28;box-shadow:0 1px 1px rgba(0,0,0,.12);}
+  .msg.coach{background:#fff;align-self:flex-start;border-top-left-radius:4px;}
+  .msg.me{background:#d6f8c6;align-self:flex-end;border-top-right-radius:4px;}
+  .flag{align-self:center;background:#3a2a08;color:#ffe0a3;font-size:11px;font-weight:800;border-radius:999px;padding:7px 13px;box-shadow:0 3px 10px rgba(0,0,0,.3);}
+</style></head>
+<body>
+  <div class="glow g1"></div><div class="glow g2"></div>
+  <div class="left">
+    <div class="brand"><div class="mk">🛟</div><b>Coach de Retención</b><span class="tg">Demo B2B</span></div>
+    <h1>¿Por qué se va<br><span class="ac">tu gente?</span></h1>
+    <div class="sub">Un agente de IA acompaña a cada nuevo ingreso por <b>WhatsApp</b>, detecta las señales de fuga y <b>evita la renuncia</b>.</div>
+    <div class="chips">
+      <span class="chip">💬 WhatsApp 1:1</span>
+      <span class="chip">☕ Starbucks</span>
+      <span class="chip">🛒 Carrefour</span>
+    </div>
+    <div class="lockline"><span class="pad">🔒</span> Confidencial · RedArbor</div>
+  </div>
+  <div class="right">
+    <div class="phone"><div class="screen">
+      <div class="wahead"><div class="av">☕</div><div><div class="t">Coach · Starbucks</div><div class="s"><span class="vd"></span> en línea</div></div></div>
+      <div class="wabody">
+        <div class="msg coach">¿Cómo te has sentido estos primeros días? 💚</div>
+        <div class="msg me">la hora peak me supera, no sé si esto es para mí 😔</div>
+        <div class="flag">⚠️ Señal de fuga detectada</div>
+        <div class="msg coach">Tranquila, a casi todos les pasa al principio. Tengo un tip que funciona 👇</div>
+      </div>
+    </div></div>
+  </div>
+</body></html>
