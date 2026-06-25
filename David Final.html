@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>Propuesta — Negocio · RedArbor</title>
+<style>
+  :root{
+    --bg:#f6f7f9; --bg2:#eef1f4; --ink:#0e1620; --muted:#5b6776;
+    --line:#e1e6ec; --accent:#0d9488; --accent2:#b7791f; --danger:#d64550;
+    --card:#ffffff; --b2c:#0d9488; --b2b:#b7791f;
+    --shadow:0 1px 3px rgba(16,24,40,.06), 0 8px 24px rgba(16,24,40,.05);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased; overflow:hidden;
+  }
+  .deck{height:100vh;width:100vw;position:relative}
+  .slide{
+    position:absolute;inset:0;display:none;flex-direction:column;
+    justify-content:center;padding:7vh 9vw;opacity:0;transition:opacity .35s ease;
+    overflow-y:auto;
+  }
+  .slide.active{display:flex;opacity:1}
+  .eyebrow{text-transform:uppercase;letter-spacing:.22em;font-size:.78rem;color:var(--accent);font-weight:700;margin-bottom:1.4rem}
+  .eyebrow.b2c{color:var(--b2c)} .eyebrow.b2b{color:var(--b2b)}
+  h1{font-size:clamp(2.2rem,5.2vw,4.4rem);line-height:1.05;font-weight:800;letter-spacing:-.02em}
+  h2{font-size:clamp(1.8rem,4vw,3rem);line-height:1.1;font-weight:800;letter-spacing:-.02em;margin-bottom:1.8rem}
+  .lead{font-size:clamp(1.1rem,2vw,1.6rem);color:var(--muted);line-height:1.5;max-width:62ch;margin-top:1.4rem}
+  .big{font-size:clamp(1.4rem,2.6vw,2.2rem);line-height:1.35;font-weight:600;max-width:28ch}
+  .accent{color:var(--accent)} .c-b2c{color:var(--b2c)} .c-b2b{color:var(--b2b)}
+  .sub{color:var(--muted)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-top:1rem}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.6rem 1.7rem;box-shadow:var(--shadow)}
+  .card.b2c{border-top:3px solid var(--b2c)} .card.b2b{border-top:3px solid var(--b2b)}
+  .card .k{font-size:.8rem;text-transform:uppercase;letter-spacing:.14em;font-weight:700;margin-bottom:.7rem;color:var(--muted)}
+  .card .h{font-size:clamp(1.3rem,2.2vw,1.8rem);font-weight:800;margin-bottom:.5rem;letter-spacing:-.01em}
+  .card .v{font-size:clamp(1rem,1.6vw,1.25rem);line-height:1.4;color:var(--muted)}
+  .specs{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:.4rem;max-width:66rem}
+  .spec{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.6rem;box-shadow:var(--shadow)}
+  .spec .sn{font-size:clamp(1.3rem,2.4vw,1.9rem);font-weight:800;letter-spacing:-.02em;margin-bottom:.4rem}
+  .spec .sd{color:var(--muted);font-size:clamp(.98rem,1.45vw,1.15rem);line-height:1.4}
+  .flow{display:flex;align-items:stretch;gap:1rem;margin-top:1.6rem;flex-wrap:wrap}
+  .layer{flex:1;min-width:14rem;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.5rem 1.6rem;box-shadow:var(--shadow)}
+  .layer .lvl{font-size:.78rem;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:.6rem}
+  .layer .lt{font-size:clamp(1.15rem,1.9vw,1.5rem);font-weight:800;margin-bottom:.45rem}
+  .layer .ld{color:var(--muted);font-size:clamp(.95rem,1.4vw,1.12rem);line-height:1.38}
+  .layer.pay{border-left:3px solid var(--b2c)}
+  .courses{display:flex;flex-direction:column;gap:.55rem;margin-top:.2rem}
+  .courses .ci{display:flex;justify-content:space-between;gap:.8rem;font-size:clamp(.9rem,1.3vw,1.08rem);color:var(--muted);line-height:1.3}
+  .courses .ci b{color:var(--ink);font-weight:700;white-space:nowrap}
+  .stat{display:flex;gap:2.4rem;margin-top:2rem;flex-wrap:wrap}
+  .stat .s .n{font-size:clamp(2.2rem,5vw,3.6rem);font-weight:800;letter-spacing:-.02em}
+  .stat .s .l{color:var(--muted);font-size:1rem;margin-top:.3rem;max-width:18ch}
+  .duo{display:flex;align-items:center;gap:2.6rem;margin-top:1.4rem;flex-wrap:wrap}
+  .duo-item{display:flex;flex-direction:column;gap:.5rem}
+  .duo-item .dl{font-size:clamp(2.4rem,5.4vw,4.2rem);font-weight:800;letter-spacing:-.02em;line-height:1}
+  .duo-item .ds{color:var(--muted);font-size:clamp(1rem,1.7vw,1.35rem);font-weight:600}
+  .duo-sep{font-size:clamp(2.2rem,4.5vw,3.4rem);color:var(--line);font-weight:300}
+  .demolink{margin-top:.7rem;align-self:flex-start;text-decoration:none;font-weight:700;font-size:clamp(.92rem,1.4vw,1.1rem);padding:.5rem 1.05rem;border-radius:999px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow);transition:border-color .2s,transform .1s}
+  .demolink:hover{transform:translateY(-1px)}
+  .demolink.b2c{color:var(--b2c);border-color:rgba(13,148,136,.35)} .demolink.b2c:hover{border-color:var(--b2c)}
+  .demolink.b2b{color:var(--b2b);border-color:rgba(183,121,31,.35)} .demolink.b2b:hover{border-color:var(--b2b)}
+  .onepct{margin-top:1.8rem;font-size:clamp(1.05rem,1.9vw,1.5rem);font-weight:600;line-height:1.4;max-width:34ch;border-left:3px solid var(--accent);padding-left:1.1rem;color:var(--ink)}
+  .onepct b{font-weight:800}
+  .valflow{display:flex;align-items:center;gap:1.4rem;margin-top:1.8rem;flex-wrap:wrap}
+  .node{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.7rem;text-align:center;min-width:9.5rem;box-shadow:var(--shadow)}
+  .node .n{font-size:clamp(1.6rem,3vw,2.5rem);font-weight:800;letter-spacing:-.02em}
+  .node .l{color:var(--muted);font-size:.9rem;margin-top:.3rem}
+  .arrow{color:var(--accent);font-size:2rem;font-weight:300}
+  .prize{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--b2b);border-radius:14px;padding:1.1rem 1.5rem;margin-top:.4rem;box-shadow:var(--shadow)}
+  .prize .pz-t{font-size:clamp(1.15rem,1.9vw,1.5rem);font-weight:800;letter-spacing:-.01em;display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}
+  .prize .pz-d{color:var(--muted);font-size:clamp(.95rem,1.4vw,1.12rem);line-height:1.35;margin-top:.3rem}
+  .home{align-self:flex-start;margin-top:1.8rem;background:none;color:var(--accent);cursor:pointer;text-decoration:none;font-weight:700;font-size:1rem;border:1px solid var(--line);padding:.6rem 1.2rem;border-radius:999px;transition:border-color .2s}
+  .home:hover{border-color:var(--accent)}
+  table{border-collapse:collapse;margin-top:1.4rem;width:100%;max-width:64rem}
+  td,th{text-align:left;padding:.85rem 1rem;border-bottom:1px solid var(--line);font-size:clamp(.95rem,1.5vw,1.18rem)}
+  th{color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:.74rem}
+  td:first-child{font-weight:700}
+  .pill{display:inline-block;padding:.2rem .7rem;border-radius:999px;font-size:.8rem;font-weight:700}
+  .pill.hi{background:rgba(240,180,41,.14);color:var(--b2b);border:1px solid rgba(240,180,41,.3)}
+  .pill.mid{background:rgba(154,166,181,.12);color:var(--muted);border:1px solid var(--line)}
+  .quote{font-size:clamp(1.3rem,2.6vw,2.1rem);line-height:1.4;font-weight:600;max-width:32ch;border-left:3px solid var(--accent);padding-left:1.6rem}
+  .muted-note{color:var(--muted);font-size:.95rem;margin-top:1.4rem;font-style:italic}
+  .footer{position:fixed;bottom:3vh;left:9vw;right:9vw;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:.8rem;z-index:8}
+  .dots{display:flex;gap:.4rem}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--line);transition:background .2s}
+  .dot.on{background:var(--accent)}
+  .nav{position:fixed;bottom:3vh;right:9vw;display:flex;gap:.5rem;z-index:10}
+  .nav button{background:var(--card);border:1px solid var(--line);color:var(--ink);width:38px;height:38px;border-radius:9px;font-size:1.1rem;cursor:pointer}
+  .nav button:hover{border-color:var(--accent)}
+  .tag{align-self:flex-start;padding:.4rem 1rem;border-radius:999px;font-size:.9rem;font-weight:600;margin-top:1.4rem;border:1px solid var(--line);color:var(--muted)}
+
+  /* ── EDITOR ── */
+  .ebar{position:fixed;top:0;left:0;right:0;height:0;overflow:hidden;background:var(--ink);display:flex;align-items:center;gap:.6rem;padding:0 1.2rem;z-index:200;transition:height .2s ease;box-shadow:0 2px 12px rgba(0,0,0,.18)}
+  body.editing .ebar{height:54px}
+  body.editing .deck{margin-top:54px;height:calc(100vh - 54px)}
+  .ebar .title{color:rgba(255,255,255,.6);font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-right:auto}
+  .ebar button{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);color:#fff;border-radius:8px;padding:.45rem .9rem;font-size:.85rem;font-weight:700;cursor:pointer;transition:background .15s}
+  .ebar button:hover{background:rgba(255,255,255,.2)}
+  .ebar button.danger{background:rgba(214,69,80,.25);border-color:rgba(214,69,80,.4)}
+  .ebar button.go{background:var(--accent);border-color:var(--accent)}
+  .efab{position:fixed;top:1.1rem;right:1.3rem;z-index:95;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:.5rem 1.05rem;font-size:.85rem;font-weight:700;color:var(--accent);cursor:pointer;box-shadow:var(--shadow);transition:border-color .2s}
+  .efab:hover{border-color:var(--accent)}
+  body.editing .efab{display:none}
+  body.editing [data-edit]{outline:1.5px dashed rgba(13,148,136,.4);outline-offset:3px;border-radius:4px;transition:outline-color .15s}
+  body.editing [data-edit]:hover{outline-color:rgba(13,148,136,.75)}
+  body.editing [data-edit]:focus{outline:2px solid var(--accent);background:rgba(13,148,136,.04)}
+  .stools{position:absolute;top:1rem;right:1.2rem;display:none;gap:.5rem;z-index:50}
+  body.editing .slide.active .stools{display:flex}
+  .stools button{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:.35rem .7rem;font-size:.78rem;font-weight:700;cursor:pointer;color:var(--ink);box-shadow:var(--shadow)}
+  .stools button.del{color:var(--danger);border-color:rgba(214,69,80,.3)}
+  .stools button:hover{border-color:var(--ink)}
+  .toast{position:fixed;bottom:1.6rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:#fff;padding:.7rem 1.3rem;border-radius:10px;font-size:.88rem;font-weight:600;z-index:300;opacity:0;transition:all .3s ease;box-shadow:0 6px 24px rgba(0,0,0,.25)}
+  .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+  @media print{
+    body{overflow:visible;background:#fff;color:#000}
+    .slide{display:flex!important;opacity:1!important;position:relative;height:100vh;page-break-after:always;inset:auto}
+    .nav,.footer,.ebar,.efab,.stools,.toast{display:none!important}
+  }
+</style>
+</head>
+<body>
+
+<!-- editor bar -->
+<div class="ebar">
+  <span class="title">✏️ Modo edición — escribe directo sobre el texto</span>
+  <button onclick="addSlide()">+ Slide nueva</button>
+  <button class="go" onclick="exportHTML()">⬇ Exportar copia limpia</button>
+  <button class="danger" onclick="resetDeck()">↺ Descartar cambios</button>
+  <button onclick="setEdit(false)">✓ Listo</button>
+</div>
+<button class="efab" onclick="setEdit(true)">✏️ Editar</button>
+
+<div class="deck" id="deck">
+
+  <!-- 0 apertura: siembra -->
+  <section class="slide active">
+    <div class="stools"></div>
+    <div class="eyebrow" data-edit>Confidencial</div>
+    <h1 data-edit>Vemos una oportunidad<br>para ser <span class="accent">socios</span>.</h1>
+    <p class="lead" data-edit>Hoy quiero mostrarte las ideas. El cómo lo conversamos juntos, más adelante.</p>
+  </section>
+
+  <!-- 1 portada -->
+  <section class="slide">
+    <div class="stools"></div>
+    <div class="eyebrow" data-edit>Propuesta de negocio</div>
+    <h1 data-edit>Crear un gran negocio sobre lo que<br>RedArbor ya tiene y <span class="accent">no explota</span>.</h1>
+    <p class="lead" data-edit>2 tipos de propuestas montadas sobre la mayor ventaja del grupo: su distribución.</p>
+    <div class="tag" data-edit>B2B · B2C</div>
+  </section>
+
+  <!-- 2 la ventaja -->
+  <section class="slide">
+    <div class="stools"></div>
+    <div class="eyebrow" data-edit>La ventaja</div>
+    <h2 data-edit>Nadie en la región distribuye<br>como RedArbor.</h2>
+    <div class="stat" data-edit>
+      <div class="s"><div class="n c-b2b">400</div><div class="l">vendedores en LatAm → la puerta al B2B</div></div>
+      <div class="s"><div class="n c-b2c">180M</div><div class="l">candidatos en los portales → la masa del B2C</div></div>
+      <div class="s"><div class="n accent">~$0</div><div class="l">costo de adquisición: el canal ya es nuestro</div></div>
+      <div class="s"><div class="n c-b2b">550K</div><div class="l">empresas que ya nos facturan: Multiposting, ATS, psicometría</div></div>
+    </div>
+    <p class="lead" data-edit>El producto se puede copiar. Esta distribución, no.</p>
+  </section>
+
+  <!-- 3 las dos propuestas -->
+  <section class="slide">
+    <div class="stools"></div>
+    <div class="eyebrow" data-edit>El mapa</div>
+    <h2 data-edit>Dos propuestas.</h2>
+    <div class="duo" data-edit>
+      <div class="duo-item"><span class="dl c-b2c">B2C</span><span class="ds">180M candidatos</span><a class="demolink b2c" href="https://fabmarti15.github.io/rd-prop-az1zr3/academy/" target="_blank" rel="noopener" onclick="event.stopPropagation()">▶ Ver demo B2C</a></div>
+      <div class="duo-sep">/</div>
+      <div class="duo-item"><span class="dl c-b2b">B2B</span><span class="ds">550.000 empresas</span><a class="demolink b2b" href="https://fabmarti15.github.io/rd-prop-az1zr3/coach/" target="_blank" rel="noopener" onclick="event.stopPropagation()">▶ Ver demo B2B</a></div>
+    </div>
+    <p class="onepct" data-edit>Con vender al <b>~1%</b> de cualquiera de las dos bases, ya es un negocio de <b class="accent">US$10M+</b> al año.</p>
+    <p class="muted-note" data-edit>Ideas para explorar.</p>
+  </section>
+
+  <!-- 4 B2C intro -->
+  <section class="slide">
+    <div class="stools"></div>
+    <div class="eyebrow b2c" data-edit>Propuesta B2C · Negocio EdTech</div>
+    <h2 data-edit>Certificaciones para los <span class="c-b2c">180 millones</span> de candidatos.</h2>
+    <p class="big sub" data-edit>Cursos que de verdad acerquen al candidato a conseguir trabajo — o a emprender.</p>
+    <p class="lead" data-edit>El contenido ya es gratis. Lo que nadie puede copiar es <span class="c-b2c">dónde vive la certificación</span>: dentro del portal donde se contrata.</p>
+  </section>
+
+  <!-- 6 B2C las 3 capas (overview) -->
+  <section class="slide">
+    <div class="stools"></div>
+    <div class="eyebrow b2c" data-edit>B2C · Negocio EdTech</div>
+    <h2 data-edit>La idea: tres capas.</h2>
+    <div class="flow" data-edit>
+      <div class="layer"><div class="lvl">Capa 1 · Gancho</div><div class="lt">Empleabilidad, gratis</div><div class="ld">CV (tu historia, no un PDF más), preparación de entrevistas, marca personal. Trae al candidato y alimenta el resto.</div></div>
+      <div class="layer pay"><div class="lvl">Capa 2 · El candidato paga</div><div class="lt">Cursos para ser contratable</div>
+        <div class="courses">
+          <div class="ci"><span>Inglés para el trabajo</span><b>$49</b></div>
+          <div class="ci"><span>Analista de datos con IA</span><b>$35</b></div>
+          <div class="ci"><span>IA en tu trabajo</span><b>$25</b></div>
+          <div class="ci"><span>Bodega y logística</span><b>$20</b></div>
+          <div class="ci"><span>Ventas y atención al cliente</span><b>$15</b></div>
+        </div>
+      </div>
+      <div class="layer"><div class="lvl">Capa 3 · La empresa paga</div><div class="lt">B2B2C</div><div class="ld">La empresa capacita a sus postulantes; el candidato no paga por adelantado. Ticket alto, vía los 400 vendedores.</div></div>
+    </div>
+  </section>
+
+  <!-- 6b Capa 3 · el modelo -->
+  <section class="slide">
+    <div class="stools"></div>
+    <div class="eyebrow b2c" data-edit>Capa 3 · El modelo</div>
+    <h2 data-edit>Postula. Aprende.<br>Paga solo si te <span class="c-b2c">contratan</span>.</h2>
+    <p class="lead" data-edit>Cada empresa regala capacitación a todos sus postulantes. Solo quien consigue el empleo aporta <b>USD 30</b> de su primer sueldo; la empresa pone <b>USD 60</b>. El candidato se forma gratis y la empresa contrata talento listo.</p>
+    <p class="quote" data-edit>"Postula al Banco de Chile y conviértete en experto en Excel + IA."</p>
+  </section>
+
+  <!-- 7 B2C integración + camino -->
+  <section class="slide">
+    <div class="stools"></div>
+    <div class="eyebrow b2c" data-edit>Por qué gana dentro del portal</div>
+    <h2 data-edit>La certificación es <span class="c-b2c">oro</span> dentro de nuestros portales.</h2>
+    <div class="specs" data-edit>
+      <div class="spec"><div class="sn c-b2c">Badge filtrable</div><div class="sd">Aparece en el CV; el reclutador filtra por él.</div></div>
+      <div class="spec"><div class="sn c-b2c">Mejor matching</div><div class="sd">Certificarse sube al candidato en los resultados.</div></div>
+      <div class="spec"><div class="sn c-b2c">Gap analysis</div><div class="sd">"Te rechazaron 5 veces por falta de X → certifícate en X."</div></div>
+      <div class="spec"><div class="sn c-b2c">Push masivo</div><div class="sd">Millones de candidatos, alcance directo, CAC ~cero.</div></div>
+    </div>
+  </section>
+
+  <!-- 8 B2B intro -->
+  <section class="slide">
+    <div class="stools"></div>
+    <div class="eyebrow b2b" data-edit>Propuesta B2B</div>
+    <h2 data-edit>Un nuevo SaaS B2B.</h2>
+    <div class="stat" data-edit>
+      <div class="s"><div class="n c-b2b">12.000</div><div class="l">empresas ya usando el ATS</div></div>
+      <div class="s"><div class="n c-b2b">550.000</div><div class="l">empresas pagando job posting</div></div>
+    </div>
+    <p class="lead" data-edit>Un nuevo SaaS — por ejemplo, pago de nómina. Que <span class="c-b2b">no compita</span> con el HCM freemium que el grupo va a lanzar, sino que lo complemente.</p>
+  </section>
+
+  <!-- 9 B2B menú -->
+  <section class="slide">
+    <div class="stools"></div>
+    <div class="eyebrow b2b" data-edit>Las opciones B2B</div>
+    <h2 data-edit>Ideas a explorar</h2>
+    <div class="prize" data-edit><div class="pz-t">Nómina multi-país <span class="pill hi">El premio grande</span></div><div class="pz-d">Monetiza el HCM freemium. El modelo BUK, con 18 países de distribución.</div></div>
+    <table data-edit>
+      <tr><th>Producto</th><th>Qué hace</th><th>Cobro</th></tr>
+      <tr><td>Contrata y Firma</td><td>Contrato + firma electrónica + papeles, todo digital al cerrar la contratación.</td><td>Por transacción</td></tr>
+      <tr><td>Coach de Retención 🤖</td><td>Bot de WhatsApp que escribe al nuevo a los 14 y 30 días, detecta señales de fuga y alerta a RRHH. Sube retención en la etapa más crítica.</td><td>Suscripción x empleado/mes</td></tr>
+      <tr><td>Identidad Verificada (KYC)</td><td>Valida identidad de clientes, proveedores o candidatos. Gemelo del background check.</td><td>Por verificación</td></tr>
+    </table>
+    <p class="muted-note" data-edit>Todos transaccionales o recurrentes, y lejos del core. Elegimos el primero en la fase de validación.</p>
+  </section>
+
+  <!-- 10 B2B matemática -->
+  <section class="slide">
+    <div class="stools"></div>
+    <div class="eyebrow b2b" data-edit>El tamaño del premio</div>
+    <h2 data-edit>Camino a <span class="c-b2b">$10M</span> de ARR.</h2>
+    <div class="grid2" data-edit>
+      <div class="card b2b"><div class="k">Escenario A</div><div class="h c-b2b">Solo 0,4%</div><div class="v">de las 550.000 × ~$350/mes → <b>~2.400 empresas</b>.</div></div>
+      <div class="card b2b"><div class="k">Escenario B</div><div class="h c-b2b">Solo 0,9%</div><div class="v">de las 550.000 × ~$175/mes → <b>~4.800 empresas</b>.</div></div>
+    </div>
+    <p class="lead" data-edit>No hace falta convencer a toda la base. Con <span class="c-b2b">menos del 1%</span> del universo que ya le compra job posting al grupo, llegamos a $10M.</p>
+    <button class="home" onclick="go(2)">↩ Volver a las propuestas</button>
+  </section>
+
+</div>
+
+<div class="footer">
+  <span>Propuesta de negocio · RedArbor</span>
+  <div class="dots" id="dots"></div>
+</div>
+
+<div class="nav">
+  <button id="prev">‹</button>
+  <button id="next">›</button>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ───────── NAV ───────── */
+let i = 0;
+function slides(){ return [...document.querySelectorAll('#deck .slide')]; }
+function buildDots(){
+  const w = document.getElementById('dots');
+  if(!w) return;
+  w.innerHTML = '';
+  slides().forEach((_,k)=>{ const d=document.createElement('div'); d.className='dot'+(k===i?' on':''); w.appendChild(d); });
+}
+function go(n){
+  const sl = slides();
+  i = Math.max(0, Math.min(sl.length-1, n));
+  sl.forEach((s,k)=>s.classList.toggle('active', k===i));
+  [...document.querySelectorAll('.dot')].forEach((d,k)=>d.classList.toggle('on', k===i));
+}
+document.getElementById('next').onclick=()=>go(i+1);
+document.getElementById('prev').onclick=()=>go(i-1);
+document.addEventListener('keydown',e=>{
+  if(document.body.classList.contains('editing')) return; // no navegar mientras se edita
+  if(e.key==='ArrowRight'||e.key===' ')go(i+1);
+  if(e.key==='ArrowLeft')go(i-1);
+});
+document.getElementById('deck').addEventListener('click',e=>{
+  if(document.body.classList.contains('editing')) return; // no navegar mientras se edita
+  if(e.target.closest('.nav')||e.target.closest('.home'))return;
+  if(e.clientX > window.innerWidth*0.5)go(i+1);else go(i-1);
+});
+
+/* ───────── PERSISTENCE ───────── */
+const KEY = 'negocio-redarbor-v1';
+function saveDeck(){
+  try{ localStorage.setItem(KEY, document.getElementById('deck').innerHTML); }catch(e){}
+}
+function loadDeck(){
+  try{
+    const saved = localStorage.getItem(KEY);
+    if(saved){ document.getElementById('deck').innerHTML = saved; i = 0; }
+  }catch(e){}
+}
+loadDeck();
+buildDots();
+go(0);
+
+/* ───────── EDIT MODE ───────── */
+function setEdit(on){
+  document.body.classList.toggle('editing', on);
+  document.querySelectorAll('#deck [data-edit]').forEach(el=>{ el.contentEditable = on ? 'true' : 'false'; });
+  if(on){ buildSlideTools(); }
+  else { saveDeck(); toast('Cambios guardados en este navegador'); }
+}
+document.getElementById('deck').addEventListener('input', ()=>{ saveDeck(); });
+
+function buildSlideTools(){
+  slides().forEach((s)=>{
+    let t = s.querySelector('.stools');
+    if(!t){ t=document.createElement('div'); t.className='stools'; s.prepend(t); }
+    t.innerHTML = '<button onclick="dupSlide(this)">⧉ Duplicar</button>'+
+                  '<button class="del" onclick="delSlide(this)">🗑 Borrar slide</button>';
+  });
+}
+function addSlide(){
+  const tpl = document.createElement('section');
+  tpl.className='slide';
+  tpl.innerHTML = '<div class="stools"></div>'+
+    '<div class="eyebrow" data-edit contenteditable="true">Nueva sección</div>'+
+    '<h2 data-edit contenteditable="true">Título de la slide</h2>'+
+    '<p class="lead" data-edit contenteditable="true">Escribe aquí el contenido. Puedes borrar esta slide con el botón de arriba a la derecha.</p>';
+  slides()[i].after(tpl);
+  buildSlideTools();
+  buildDots();
+  saveDeck();
+  go(i+1);
+  toast('Slide agregada');
+}
+function dupSlide(btn){
+  const s = btn.closest('.slide');
+  const clone = s.cloneNode(true);
+  s.after(clone);
+  clone.querySelectorAll('[data-edit]').forEach(el=>el.contentEditable='true');
+  buildSlideTools();
+  buildDots();
+  saveDeck();
+  toast('Slide duplicada');
+}
+function delSlide(btn){
+  const sl = slides();
+  if(sl.length<=1){ toast('No puedes borrar la última slide'); return; }
+  const s = btn.closest('.slide');
+  const idx = sl.indexOf(s);
+  s.remove();
+  i = Math.max(0, idx-1);
+  buildDots();
+  go(i);
+  saveDeck();
+  toast('Slide borrada');
+}
+function resetDeck(){
+  if(!confirm('¿Descartar TODOS tus cambios y volver a la versión original?')) return;
+  try{ localStorage.removeItem(KEY); }catch(e){}
+  location.reload();
+}
+
+/* ───────── EXPORT clean copy ───────── */
+function exportHTML(){
+  setEdit(false);
+  const clone = document.documentElement.cloneNode(true);
+  clone.querySelectorAll('.ebar,.efab,.stools,.toast').forEach(e=>e.remove());
+  clone.querySelectorAll('[contenteditable]').forEach(e=>e.removeAttribute('contenteditable'));
+  clone.querySelectorAll('[data-edit]').forEach(e=>e.removeAttribute('data-edit'));
+  clone.querySelectorAll('script').forEach(e=>e.remove());
+  const navScript = `<script>
+let i=0;function slides(){return [...document.querySelectorAll('#deck .slide')];}
+function buildDots(){const w=document.getElementById('dots');if(!w)return;w.innerHTML='';slides().forEach((_,k)=>{const d=document.createElement('div');d.className='dot'+(k===i?' on':'');w.appendChild(d);});}
+function go(n){const s=slides();i=Math.max(0,Math.min(s.length-1,n));s.forEach((x,k)=>x.classList.toggle('active',k===i));[...document.querySelectorAll('.dot')].forEach((d,k)=>d.classList.toggle('on',k===i));}
+buildDots();go(0);
+document.getElementById('next').onclick=()=>go(i+1);
+document.getElementById('prev').onclick=()=>go(i-1);
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' ')go(i+1);if(e.key==='ArrowLeft')go(i-1);});
+document.getElementById('deck').addEventListener('click',e=>{if(e.target.closest('.nav')||e.target.closest('.home'))return;if(e.clientX>window.innerWidth*0.5)go(i+1);else go(i-1);});
+<\/script>`;
+  const html = '<!DOCTYPE html>\n<html lang="es">'+clone.innerHTML.replace('</body>', navScript+'\n</body>')+'</html>';
+  const blob = new Blob([html], {type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'negocio-redarbor.html';
+  a.click();
+  toast('Copia limpia descargada: negocio-redarbor.html');
+}
+
+/* ───────── toast ───────── */
+let toastT;
+function toast(msg){
+  const t=document.getElementById('toast');
+  if(!t)return; t.textContent=msg; t.classList.add('show');
+  clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('show'),2400);
+}
+</script>
+</body>
+</html>
